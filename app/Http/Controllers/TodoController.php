@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -11,7 +12,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('todo');
     }
 
     /**
