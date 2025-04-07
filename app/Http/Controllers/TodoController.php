@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Interfaces\TodoInterface;
 
 class TodoController extends Controller
 {
+
+    public $todoInterface;
+    
+    public function __construct(TodoInterface $todoInterface){
+        $this->todoInterface = $todoInterface;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $todos = $this->todoInterface->getTodos();
         return Inertia::render('todo');
     }
 

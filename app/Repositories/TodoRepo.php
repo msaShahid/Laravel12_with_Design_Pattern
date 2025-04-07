@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
-class TodoRepo
+use App\Interfaces\TodoInterface;
+
+class TodoRepo implements TodoInterface
 {
     /**
      * Create a new class instance.
@@ -13,6 +15,7 @@ class TodoRepo
     }
 
     public function getTodos(){
-        
+        dd('Fetchin todos');
+
     }
 }
