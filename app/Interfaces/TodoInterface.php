@@ -6,5 +6,5 @@ interface TodoInterface
 {
     public function getTodos();
 
-    public function saveTodo();
+    public function saveTodo($request);
 }
