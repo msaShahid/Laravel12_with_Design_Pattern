@@ -26,4 +26,12 @@ class TodoFormRequest extends FormRequest
             'description' => 'required',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Plase Enter Title is required',
+            'description.required' => 'Plase Enter Description is required',    
+        ];
+    }
 }
