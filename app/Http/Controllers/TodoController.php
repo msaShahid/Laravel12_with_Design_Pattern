@@ -41,7 +41,14 @@ class TodoController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
-        $this->todoInterface->saveTodo($request);
+       $todo = $this->todoInterface->saveTodo($request);
+       
+        if($todo){
+            return back()->with('success','Todo has been created');
+        }else{
+           return back()->with('error','Unable to create todo');
+        }
+
     }
 
     /**
