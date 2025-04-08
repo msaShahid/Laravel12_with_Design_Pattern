@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Todo;
 use App\Interfaces\TodoInterface;
 
 class TodoRepo implements TodoInterface
@@ -15,7 +16,11 @@ class TodoRepo implements TodoInterface
     }
 
     public function getTodos(){
-        dd('Fetchin todos');
+        return Todo::all();
 
+    }
+
+    public function saveTodo($request){
+        dd($request->all());
     }
 }

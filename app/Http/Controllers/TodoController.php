@@ -37,7 +37,7 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->todoInterface->saveTodo($request);
     }
 
     /**
