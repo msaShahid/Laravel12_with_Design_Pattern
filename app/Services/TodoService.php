@@ -31,7 +31,7 @@ class TodoService
         $todo = $this->mapTodoFormData($request);
 
         #Save Todo
-        $this->todoInterface->saveTodo($todo);
+       return $this->todoInterface->saveTodo($todo);
     }
 
     public function mapTodoFormData($request){

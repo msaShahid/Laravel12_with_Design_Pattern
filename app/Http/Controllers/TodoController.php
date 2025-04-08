@@ -22,7 +22,9 @@ class TodoController extends Controller
     public function index()
     {
         $todos = $this->todoService->getTodos();
-        return Inertia::render('todo');
+        return Inertia::render('todo',[
+            'todos' => $todos,
+        ]);
     }
 
     /**
@@ -39,13 +41,16 @@ class TodoController extends Controller
     public function store(TodoFormRequest $request)
     {
        $todo = $this->todoService->saveTodo($request);
-       
-        if($todo){
-            return back()->with('success','Todo has been created');
-        }else{
-           return back()->with('error','Unable to create todo');
-        }
 
+        if ($todo) {
+            return Inertia::render('todo', [
+                'success' => 'Todo has been created',
+            ]);
+        } else {
+            return Inertia::render('todo', [
+                'error' => 'Unable to create todo',
+            ]);
+        }
     }
 
     /**
