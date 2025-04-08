@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Interfaces\TodoInterface;
+use App\Services\TodoService;
+use App\Http\Requests\TodoFormRequest;
 
 class TodoController extends Controller
 {
 
-    public $todoInterface;
+    public $todoService;
     
-    public function __construct(TodoInterface $todoInterface){
-        $this->todoInterface = $todoInterface;
+    public function __construct(TodoService $todoService){
+        $this->todoService = $todoService;
     }
 
     /**
@@ -20,7 +21,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todos = $this->todoInterface->getTodos();
+        $todos = $this->todoService->getTodos();
         return Inertia::render('todo');
     }
 
@@ -35,13 +36,9 @@ class TodoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TodoFormRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-        ]);
-       $todo = $this->todoInterface->saveTodo($request);
+       $todo = $this->todoService->saveTodo($request);
        
         if($todo){
             return back()->with('success','Todo has been created');

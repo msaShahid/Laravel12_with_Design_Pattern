@@ -20,11 +20,8 @@ class TodoRepo implements TodoInterface
 
     }
 
-    public function saveTodo($request){
-        //dd($request->all());
-       return Todo::create([
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
+    public function saveTodo($todoRequest){
+        //dd(todoRequest);
+       return Todo::create($todoRequest);
     }
 }
