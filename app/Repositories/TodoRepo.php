@@ -16,8 +16,7 @@ class TodoRepo implements TodoInterface
     }
 
     public function getTodos(){
-        return Todo::all();
-
+        return Todo::latest()->get();
     }
 
     public function saveTodo($todoRequest){

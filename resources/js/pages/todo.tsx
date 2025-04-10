@@ -1,4 +1,4 @@
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { FormEventHandler, useState } from "react";
 import { router } from "@inertiajs/react";
 import {toast} from "sonner";
@@ -15,8 +15,12 @@ interface Props {
     };
     todos?: Todo[] | null;
 }
-const TodoForm: React.FC<Props> = ({ errors,todos }) => {
-    const todosList = todos ?? [];
+
+const TodoForm: React.FC<Props> = () => {
+
+    const { props } = usePage<{ todos?: Todo[] | null; errors: Props['errors'] }>();
+    const todosList = props.todos ?? [];
+    const errors = props.errors ?? {};
    
     const [formData, setFormData] = useState<Todo>({
         title: '',
@@ -25,7 +29,7 @@ const TodoForm: React.FC<Props> = ({ errors,todos }) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+    };
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -36,11 +40,10 @@ const TodoForm: React.FC<Props> = ({ errors,todos }) => {
         payload.append("description", formData.description);
 
         router.post("/todos", payload, {
-            onSuccess: (response) => {
+            onSuccess: () => {
                 toast.success('Todo has been created successfully!');
-                if (response.props.success) {
-                    setFormData({ title: '', description: '' }); 
-                }
+                console.log('save');
+                setFormData({ title: '', description: '' }); 
             },
             onError: (errors) => {
                 console.error(errors.message || "Failed to submit post.");
@@ -52,52 +55,50 @@ const TodoForm: React.FC<Props> = ({ errors,todos }) => {
         <>
             <Head title="Todos"></Head>
             <div className="flex justify-center items-center min-h-screen bg-gray-100">
-                <div className="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-                    {/* Form Section */}
+                <div className="w-full mt-5 max-w-3xl bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+
                     <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Create a New Todo</h2>
-
                     <form onSubmit={handleSubmit}>
-                    <div className="mb-6">
-                        <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Title</label>
-                        <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        className="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-4 transition duration-200 ease-in-out"
-                        placeholder="Enter task title"
-                        />
-                        {errors.title && (
-                            <div className="text-red-500 text-sm mt-1">{errors.title}</div>
-                        )}
-                    </div>
+                        <div className="mb-6">
+                            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Title</label>
+                            <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            className="w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+                            placeholder="Enter task title"
+                            />
+                            {errors.title && (
+                                <div className="text-red-500 text-sm mt-1">{errors.title}</div>
+                            )}
+                        </div>
 
-                    <div className="mb-6">
-                        <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">Description</label>
-                        <textarea
-                        id="description"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        className="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-4 transition duration-200 ease-in-out"
-                        placeholder="Enter your task details..."
-                        ></textarea>
-                        {errors.description && (
-                            <div className="text-red-500 text-sm mt-1">{errors.description}</div>
-                        )}
-                    </div>
+                        <div className="mb-6">
+                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                            <textarea
+                            id="description"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            className="w-full bg-gray-50 p-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+                            placeholder="Enter your task details..."
+                            ></textarea>
+                            {errors.description && (
+                                <div className="text-red-500 text-sm mt-1">{errors.description}</div>
+                            )}
+                        </div>
 
-                    <button
-                        type="submit"
-                        className="w-1/2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg py-3 text-center transition duration-200 ease-in-out"
-                    >
-                        Submit
-                    </button>
+                        <button
+                            type="submit"
+                            className="w-1/4 p-2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center transition duration-200 ease-in-out"
+                        >
+                            Submit
+                        </button>
                     </form>
 
-                    {/* Table Section */}
-                    <div className="mt-10">
+                    <div className="mt-5">
                         <h3 className="text-xl font-semibold text-gray-900 mb-6">Todo List</h3>
                         {todosList.length > 0 ? (
                             <table className="min-w-full table-auto border-collapse bg-white rounded-lg shadow-md">
@@ -120,6 +121,7 @@ const TodoForm: React.FC<Props> = ({ errors,todos }) => {
                             <div className="text-gray-500 text-center">No todos available.</div>
                         )}
                     </div>
+
                 </div>
             </div>
 

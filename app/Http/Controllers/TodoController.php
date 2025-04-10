@@ -41,16 +41,6 @@ class TodoController extends Controller
     public function store(TodoFormRequest $request)
     {
        $todo = $this->todoService->saveTodo($request);
-
-        if ($todo) {
-            return Inertia::render('todo', [
-                'success' => 'Todo has been created',
-            ]);
-        } else {
-            return Inertia::render('todo', [
-                'error' => 'Unable to create todo',
-            ]);
-        }
     }
 
     /**
