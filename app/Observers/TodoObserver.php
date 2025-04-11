@@ -11,7 +11,7 @@ class TodoObserver
      */
     public function created(Todo $todo): void
     {
-        //
+        dd($todo);
     }
 
     /**

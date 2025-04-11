@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Todo::observe(TodoObserver::class);
+       // Todo::observe(TodoObserver::class);
     }
 }
