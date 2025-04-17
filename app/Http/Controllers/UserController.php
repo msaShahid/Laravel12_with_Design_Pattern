@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Http\Requests\UserRegistrationFormRequest;
 
 class UserController extends Controller
 {
+
+    public $userService;
+    
+    public function __construct(UserService $userService){
+        $this->userService = $userService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +35,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRegistrationFormRequest $request)
     {
-        //
+        $this->userService->createAndSaveUser($request);
     }
 
     /**
