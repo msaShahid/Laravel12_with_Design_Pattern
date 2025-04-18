@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Factories\Userfactory;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -18,6 +19,9 @@ class UserService
     public function createAndSaveUser($request)
     {
        $user = $this->userFactory->createUser($request);
-       
+       $user->password = Hash::make($request['password']);
+       //dd($user);
+       $user->save();
+      
     }
 }
