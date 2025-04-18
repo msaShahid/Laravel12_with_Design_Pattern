@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import { Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
+
+
 
 const UserRegistrationForm: React.FC = () => {
 
     const [formData, setFormData] = useState({
-        username: "",
+        name: "",
         email: "",
         password: "",
-        phone: ""
+        phone_number: ""
     });
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [serverErrors, setServerErrors] = useState<{ [key: string]: string }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,15 +24,15 @@ const UserRegistrationForm: React.FC = () => {
 
     const validate = () => {
         const newErrors: { [key: string]: string } = {};
-        if (!formData.username.trim()) newErrors.username = "Username is required";
+        if (!formData.name.trim()) newErrors.name = "name is required";
         if (!formData.email) newErrors.email = "Email is required";
         else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
         if (!formData.password || formData.password.length < 5) newErrors.password = "Password must be at least 5 characters";
-        if (!formData.phone) newErrors.phone = "Phone number is required";
+        if (!formData.phone_number) newErrors.phone_number = "Phone number is required";
         return newErrors;
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
 
         const validationErrors = validate();
@@ -37,29 +40,36 @@ const UserRegistrationForm: React.FC = () => {
             setErrors(validationErrors);
             return;
         }
-
+       // console.log(formData);
         setIsSubmitting(true);
 
-        try {
-            const response =  router.post("users", formData);
-            console.log("User created:", response);
-            alert("User created successfully!");
-            setFormData({
-                username: "",
-                email: "",
-                password: "",
-                phone: ""
-            });
-        } catch (error: any) {
-            console.error("Error creating user:", error);
-            if (error.response?.data?.errors) {
-                setErrors(error.response.data.errors);
-            } else {
-                alert("Something went wrong!");
-            }
-        } finally {
-            setIsSubmitting(false);
-        }
+        const payload = new FormData();
+        payload.append("name", formData.name);
+        payload.append("email", formData.email);
+        payload.append("password", formData.password);
+        payload.append("phone_number", formData.phone_number);
+
+         router.post("/users", payload, {
+            onSuccess: () => {
+                console.log('save');
+                setFormData({
+                    name: "",
+                    email: "",
+                    password: "",
+                    phone_number: ""
+                });
+                setErrors({});
+                setServerErrors({});
+                setIsSubmitting(false);
+            },
+            onError: (errors) => {
+                setServerErrors(errors); 
+                console.error(errors);
+                setIsSubmitting(false);
+            },
+        });
+
+
     };
 
     return (
@@ -71,17 +81,19 @@ const UserRegistrationForm: React.FC = () => {
                     <form onSubmit={handleSubmit}>
 
                         <div className="mb-6">
-                            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">Username</label>
+                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">name</label>
                             <input
                                 type="text"
-                                id="username"
-                                name="username"
-                                value={formData.username}
+                                id="name"
+                                name="name"
+                                value={formData.name}
                                 onChange={handleChange}
-                                className={`w-full p-2 bg-gray-50 border ${errors.username ? "border-red-500" : "border-gray-300"} text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500`}
-                                placeholder="Enter your username"
+                                className={`w-full p-2 bg-gray-50 border ${errors.name ? "border-red-500" : "border-gray-300"} text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                                placeholder="Enter your name"
                             />
-                            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
+                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                            {serverErrors.name && <p className="text-red-500 text-sm mt-1">{serverErrors.name}</p>}
+                            
                         </div>
 
                         <div className="mb-6">
@@ -96,6 +108,7 @@ const UserRegistrationForm: React.FC = () => {
                                 placeholder="Enter your email"
                             />
                             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                            {serverErrors.email && <p className="text-red-500 text-sm mt-1">{serverErrors.email}</p>}
                         </div>
 
                         <div className="mb-6">
@@ -110,20 +123,22 @@ const UserRegistrationForm: React.FC = () => {
                                 placeholder="Enter your password"
                             />
                             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                            {serverErrors.password && <p className="text-red-500 text-sm mt-1">{serverErrors.password}</p>}
                         </div>
 
                         <div className="mb-6">
-                            <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
+                            <label htmlFor="phone_number" className="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
                             <input
                                 type="tel"
-                                id="phone"
-                                name="phone"
-                                value={formData.phone}
+                                id="phone_number"
+                                name="phone_number"
+                                value={formData.phone_number}
                                 onChange={handleChange}
-                                className={`w-full p-2 bg-gray-50 border ${errors.phone ? "border-red-500" : "border-gray-300"} text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                                className={`w-full p-2 bg-gray-50 border ${errors.phone_number ? "border-red-500" : "border-gray-300"} text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500`}
                                 placeholder="Enter your phone number"
                             />
-                            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                            {errors.phone_number && <p className="text-red-500 text-sm mt-1">{errors.phone_number}</p>}
+                            {serverErrors.phone_number && <p className="text-red-500 text-sm mt-1">{serverErrors.phone_number}</p>}
                         </div>
 
                         <button

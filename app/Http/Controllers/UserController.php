@@ -37,7 +37,8 @@ class UserController extends Controller
      */
     public function store(UserRegistrationFormRequest $request)
     {
-        $this->userService->createAndSaveUser($request);
+      $data = $this->userService->createAndSaveUser($request->validated());
+      
     }
 
     /**

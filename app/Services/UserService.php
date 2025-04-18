@@ -17,6 +17,7 @@ class UserService
 
     public function createAndSaveUser($request)
     {
-        $this->userFactory->createUser($request);
+       $user = $this->userFactory->createUser($request);
+       
     }
 }
