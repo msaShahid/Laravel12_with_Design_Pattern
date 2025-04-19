@@ -15,6 +15,7 @@ class Logger
     }
 
     public function dumpLog($message){
-        Log::info($message);
+       $object_id = spl_object_id($this);
+        Log::info("$message Object id : {$object_id}" );
     }
 }
