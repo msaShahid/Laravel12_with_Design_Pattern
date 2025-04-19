@@ -1,10 +1,18 @@
-import React, { FormEventHandler, useState } from "react";
-import { Head } from "@inertiajs/react";
+import React, { FormEventHandler, useEffect, useState } from "react";
+import { Head, usePage } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 
 
 
 const UserRegistrationForm: React.FC = () => {
+
+    const { props } = usePage<{ flash: { success?: string } }>();
+
+    useEffect(() => {
+        if (props.flash?.success) {
+            alert(props.flash.success);
+        }
+    }, [props.flash?.success]);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -50,7 +58,7 @@ const UserRegistrationForm: React.FC = () => {
         payload.append("phone_number", formData.phone_number);
 
          router.post("/users", payload, {
-            onSuccess: () => {
+            onSuccess: ( ) => {
                 console.log('save');
                 setFormData({
                     name: "",

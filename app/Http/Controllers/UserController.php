@@ -38,7 +38,9 @@ class UserController extends Controller
     public function store(UserRegistrationFormRequest $request)
     {
       $data = $this->userService->createAndSaveUser($request->validated());
-      
+      if($data){
+        return redirect()->back()->with('success', 'User created successfully.');
+      };
     }
 
     /**
