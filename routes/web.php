@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SingletonController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -18,6 +19,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::resource('todos',TodoController::class);
 Route::resource('users', UserController::class);
+
+Route::get('singleton', [SingletonController::class,'singletonLog']);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
