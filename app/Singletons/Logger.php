@@ -6,12 +6,18 @@ use Illuminate\Support\Facades\Log;
 
 class Logger
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
+
+    private static $instance = null;
+
+    private function __construct(){
+        
+    }
+
+    public static function getInstance(){
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
     public function dumpLog($message){

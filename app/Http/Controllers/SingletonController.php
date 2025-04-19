@@ -8,17 +8,22 @@ use Illuminate\Http\Request;
 class SingletonController extends Controller
 {
 
-    protected $logger;
-    public function __construct(Logger $logger){
-        $this->logger = $logger;
-    }
+    // protected $logger;
+    // public function __construct(Logger $logger){
+    //     $this->logger = $logger;
+    // }
 
     public function singletonLog(){
-        $logger = new Logger;
-        $logger->dumpLog('Singleton Log Message');
 
-        $loggerTwo = new Logger;
-        $loggerTwo->dumpLog('Singleton Log Message 2');
+        $log = Logger::getInstance();
+
+        dd($log);
+
+        // $logger = new Logger;
+        // $logger->dumpLog('Singleton Log Message');
+
+        // $loggerTwo = new Logger;
+        // $loggerTwo->dumpLog('Singleton Log Message 2');
 
         return 'Log Message Added';
     }
