@@ -17,6 +17,10 @@ class Logger
         
     }
 
+    private function __wakeup(){
+        throw new Exception('Serialzation not allowed!');
+    }
+
     public static function getInstance(){
         if (self::$instance === null) {
             self::$instance = new self();

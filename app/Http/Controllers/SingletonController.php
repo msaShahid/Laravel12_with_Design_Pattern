@@ -17,6 +17,9 @@ class SingletonController extends Controller
 
         $log = Logger::getInstance();
 
+        // $serialzedObj = serialize($log);
+        // $unserialzedObj = unserialize($serialzedObj);
+        
         dd($log);
 
         // $logger = new Logger;
