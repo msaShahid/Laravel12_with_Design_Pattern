@@ -19,14 +19,13 @@ class SingletonController extends Controller
 
         // $serialzedObj = serialize($log);
         // $unserialzedObj = unserialize($serialzedObj);
-        
-        dd($log);
+    
 
         // $logger = new Logger;
-        // $logger->dumpLog('Singleton Log Message');
+         $log->dumpLog('Singleton Log Message');
 
         // $loggerTwo = new Logger;
-        // $loggerTwo->dumpLog('Singleton Log Message 2');
+         $log->dumpLog('Singleton Log Message 2');
 
         return 'Log Message Added';
     }
