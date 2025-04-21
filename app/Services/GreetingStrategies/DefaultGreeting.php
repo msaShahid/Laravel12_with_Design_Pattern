@@ -2,13 +2,11 @@
 
 namespace App\Services\GreetingStrategies;
 
-class DefaultGreeting
+use App\Interfaces\GreetingInterface;
+
+class DefaultGreeting implements GreetingInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
+    public function greet(): string{
+        return "Hello, Guest You are an user.";
     }
 }

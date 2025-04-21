@@ -2,13 +2,11 @@
 
 namespace App\Services\GreetingStrategies;
 
-class EditorGreeting
+use App\Interfaces\GreetingInterface;
+
+class EditorGreeting implements GreetingInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
+    public function greet(): string{
+        return "Hello,. You are an Editor.";
     }
 }

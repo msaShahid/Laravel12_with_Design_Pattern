@@ -2,13 +2,12 @@
 
 namespace App\Services\GreetingStrategies;
 
-class AdminGreeting
+use App\Interfaces\GreetingInterface;
+
+class AdminGreeting implements GreetingInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
+    public function greet(string $name): string{
+        return "Hello, $name. You are an admin.";
     }
+    
 }

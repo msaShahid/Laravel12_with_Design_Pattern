@@ -2,13 +2,11 @@
 
 namespace App\Services\GreetingStrategies;
 
-class PublisherGreeting
+use App\Interfaces\GreetingInterface;
+
+class PublisherGreeting implements GreetingInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
+    public function greet(): string{
+        return "Hello, You are an Publisher.";
     }
 }
