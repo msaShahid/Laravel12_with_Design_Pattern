@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Mail\WelcomeMail;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\UserRegistrationFormRequest;
 
@@ -45,6 +46,11 @@ class UserController extends Controller
 
       if($data){
         Mail::to($user->email)->send(new WelcomeMail($user->name));
+
+        Log::info('New User created: ' . $user->email  . ' at ' . now());
+
+        
+
        // return redirect()->back()->with('success', 'User created successfully.');
       };
     }

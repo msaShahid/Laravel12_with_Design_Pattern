@@ -9,10 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeMail extends Mailable
+class WelcomeMail extends Mailable 
 {
     use Queueable, SerializesModels;
-    protected $username;
+    public $username;
 
     /**
      * Create a new message instance.
