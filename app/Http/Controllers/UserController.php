@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use App\Mail\WelcomeMail;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\UserRegistrationFormRequest;
 
 class UserController extends Controller
@@ -38,8 +40,12 @@ class UserController extends Controller
     public function store(UserRegistrationFormRequest $request)
     {
       $data = $this->userService->createAndSaveUser($request->validated());
+
+      Mail::to($user->email)->send(new WelcomeMail($user->name));
+
       if($data){
-        return redirect()->back()->with('success', 'User created successfully.');
+        Mail::to($user->email)->send(new WelcomeMail($user->name));
+       // return redirect()->back()->with('success', 'User created successfully.');
       };
     }
 
