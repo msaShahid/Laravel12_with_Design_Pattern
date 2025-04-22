@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces\Services\GreetingStrategies;
+namespace App\Interfaces\GreetingStrategies;
 
 interface GreetingInterface
 {

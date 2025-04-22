@@ -15,7 +15,7 @@ class GreetingContext
         $this->greetingInterface = $greetingInterface;
     }
 
-    public function showGreeting(): string {
+    public function showGreeting() {
        return $this->greetingInterface->greet();
     }
 }

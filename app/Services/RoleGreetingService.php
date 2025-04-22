@@ -19,7 +19,7 @@ class RoleGreetingService
     }
 
     public function getGreeting($role){
-
+       // dd($role);
         switch($role){
             case 'admin':
                 $strategy = new AdminGreeting;
@@ -32,9 +32,9 @@ class RoleGreetingService
                 break;
             default:
                 $strategy = new DefaultGreeting;
-            
-            $greetContext =  new GreetingContext($strategy);
-            $greetContext->showGreeting();
         }
+
+        $greetContext =  new GreetingContext($strategy);
+        return $greetContext->showGreeting();
     }
 }
