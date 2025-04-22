@@ -46,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function scopeActiveAdmins($query)
+    {
+        return $query->where('role_type', 'admin')
+                    ->where('status', 'active')
+                    ->orderBy('created_at', 'desc');
+
+    }
 }

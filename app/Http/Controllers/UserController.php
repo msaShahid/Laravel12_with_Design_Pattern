@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Mail\WelcomeMail;
 use Illuminate\Http\Request;
@@ -49,7 +50,10 @@ class UserController extends Controller
 
         Log::info('New User created: ' . $user->email  . ' at ' . now());
 
-        
+        $admins = User::activeAdmins()->get();
+
+
+
 
        // return redirect()->back()->with('success', 'User created successfully.');
       };
