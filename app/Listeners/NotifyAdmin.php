@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\User;
+use App\Events\UserRegistered;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Notifications\NewUserNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
