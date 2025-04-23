@@ -3,9 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Todo;
+use App\Events\UserRegistered;
 use App\Repositories\TodoRepo;
 use App\Observers\TodoObserver;
 use App\Interfaces\TodoInterface;
+use App\Listeners\SendWelcomeMail;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
        // Todo::observe(TodoObserver::class);
+       Event::listen(UserRegistered::class, SendWelcomeMail::class);
     }
 }

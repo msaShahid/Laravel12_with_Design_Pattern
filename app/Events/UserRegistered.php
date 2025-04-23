@@ -21,7 +21,6 @@ class UserRegistered
     public function __construct($user)
     {
         $this->user = $user;
-        dd($this->user);
     }
 
     /**
