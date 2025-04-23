@@ -2,8 +2,10 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\UserRegistered;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class LogUserRegister
 {
@@ -18,8 +20,8 @@ class LogUserRegister
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(UserRegistered $event): void
     {
-        //
+        Log::info('New User created: ' . $event->$user->email  . ' at ' . now());
     }
 }
