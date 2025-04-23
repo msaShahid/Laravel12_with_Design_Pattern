@@ -22,6 +22,6 @@ class LogUserRegister
      */
     public function handle(UserRegistered $event): void
     {
-        Log::info('New User created: ' . $event->$user->email  . ' at ' . now());
+        Log::info('New User created: ' . $event->user->email  . ' at ' . now());
     }
 }

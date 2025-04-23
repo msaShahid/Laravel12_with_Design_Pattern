@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Todo;
 use App\Events\UserRegistered;
+use App\Listeners\NotifyAdmin;
 use App\Repositories\TodoRepo;
 use App\Observers\TodoObserver;
 use App\Interfaces\TodoInterface;
@@ -30,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
        // Todo::observe(TodoObserver::class);
        Event::listen(UserRegistered::class, SendWelcomeMail::class);
        Event::listen(UserRegistered::class, LogUserRegister::class);
+       Event::listen(UserRegistered::class, NotifyAdmin::class);
+       
     }
 }

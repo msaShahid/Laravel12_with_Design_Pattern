@@ -2,8 +2,11 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Notifications\NewUserNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Notification;
 
 class NotifyAdmin
 {
@@ -18,8 +21,9 @@ class NotifyAdmin
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(UserRegistered $event): void
     {
-        //
+        $admins = User::activeAdmins()->get();
+        Notification::send($admins, new NewUserNotification($event->user));
     }
 }
