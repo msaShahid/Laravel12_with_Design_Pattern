@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserRegistered
+class UserRegistered implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -28,10 +28,17 @@ class UserRegistered
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
+    {
+       return new Channel('registered-user');
+    }
+
+    public function broadcastWith(): array 
     {
         return [
-            new PrivateChannel('channel-name'),
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'phone_number' => $this->user->phone_number,
         ];
     }
 }
