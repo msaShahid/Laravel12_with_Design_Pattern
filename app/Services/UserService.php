@@ -20,7 +20,8 @@ class UserService
     {
        $user = $this->userFactory->createUser($request);
        $user->password = Hash::make($request['password']);
-       return $user->save();
+       $user->save();
+       return $user;
       
     }
 }
