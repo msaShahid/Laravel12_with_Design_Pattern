@@ -18,8 +18,14 @@ class ProductService
 
     public function createProduct(array $data)
     {
-        $product = $this->mapProductFormData($data);
-        return $this->productInterface->create($product->toArray());
+        $product = $this->mapProductFormData($data); 
+    
+        if (isset($product['featured_image'])) {
+            $path = $product['featured_image']->store('products', 'public');
+            $product['featured_image'] = $path;
+        }
+    
+        return $this->productInterface->create($product); 
     }
 
     public function updateProduct($id, array $data)
@@ -42,14 +48,16 @@ class ProductService
         return $this->productInterface->delete($id);
     }
 
-
-    public function mapProductFormData($request){
+    public function mapProductFormData($request)
+    {
         return [
-            'name' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'featured_image' => $request->featured_image,
-            'featured_image_name' => $request->featured_image ? $request->featured_image->getClientOriginalName() : null,
+            'name' => $request['title'] ?? null,
+            'description' => $request['description'] ?? null,
+            'price' => $request['price'] ?? 0,
+            'featured_image' => $request['featured_image'] ?? null,
+            'featured_image_name' => isset($request['featured_image']) 
+                ? $request['featured_image']->getClientOriginalName() 
+                : null,
         ];
     }
 
