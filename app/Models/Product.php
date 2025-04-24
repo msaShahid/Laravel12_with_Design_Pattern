@@ -9,4 +9,8 @@ class Product extends Model
     protected $fillable = [
         'name', 'description', 'price', 'featured_image','featured_image_name'
     ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
 }
