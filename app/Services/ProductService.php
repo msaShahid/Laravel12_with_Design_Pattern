@@ -20,9 +20,9 @@ class ProductService
     {
         $product = $this->mapProductFormData($data); 
     
-        if (isset($product->featured_image)) {
-            $path = $product->featured_image->store('products', 'public');
-            $product->featured_image = $path;
+        if (isset($product['featured_image'])) {
+            $path = $product['featured_image']->store('products', 'public');
+            $product['featured_image'] = $path;
         }
     
         return $this->productInterface->create($product); 
@@ -51,12 +51,12 @@ class ProductService
     public function mapProductFormData($request)
     {
         return [
-            'name' => $request->name ?? null,
-            'description' => $request->description ?? null,
-            'price' => $request->price ?? 0,
-            'featured_image' => $request->featured_image ?? null,
-            'featured_image_name' => isset($request->featured_image) 
-                ? $request->featured_image->getClientOriginalName() 
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'price' => $request['price'],
+            'featured_image' => $request['featured_image'],
+            'featured_image_name' => isset($request['featured_image']) 
+                ? $request['featured_image']->getClientOriginalName() 
                 : null,
         ];
     }
