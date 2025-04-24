@@ -43,8 +43,12 @@ class ProductController extends Controller
     {
         //dd($request->all());
         try {
-            $this->productService->createProduct($request->validated());
-            return redirect()->route('products.index')->with('success', 'Product created successfully.');
+            
+            $product_save = $this->productService->createProduct($request->validated());
+
+            if ($product_save) {
+                return redirect()->route('products.index')->with('success', 'Product created successfully.');
+            }
 
         } catch (Exception $e) {
             Log::error('Product creation failed', [
