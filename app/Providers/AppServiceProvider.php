@@ -10,7 +10,9 @@ use App\Observers\TodoObserver;
 use App\Interfaces\TodoInterface;
 use App\Listeners\LogUserRegister;
 use App\Listeners\SendWelcomeMail;
+use App\Interfaces\ProductInterface;
 use Illuminate\Support\Facades\Event;
+use App\Repositories\ProductRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(TodoInterface::class, TodoRepo::class);
+        $this->app->bind(ProductInterface::class, ProductRepository::class);
     }
 
     /**
