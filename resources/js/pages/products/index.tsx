@@ -6,6 +6,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { CirclePlusIcon, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import {FlashMessage} from '@/types/flash-message';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,15 +18,17 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Index() {
 
     //console.log(usePage()); 
-    const { flash } = usePage<{ flash?: { success?: string; error?: string } }>().props;
-    const flashMessage = flash?.success || flash?.error;
-    const [showAlert, setShowAlert] = useState(flash?.success || flash?.error ? true : false);
+    const { flash } = usePage<FlashMessage>().props;
+    const flashMessage = flash?.success ?? flash?.error;
+    const [showAlert, setShowAlert] = useState(!!flashMessage);
 
     useEffect(() => {
-        if (flashMessage) {
-            const timer = setTimeout(() => setShowAlert(false), 3000);
-            return () => clearTimeout(timer);
-        }
+        if (!flashMessage) return;
+
+        setShowAlert(true); 
+        const timer = setTimeout(() => setShowAlert(false), 3000);
+
+        return () => clearTimeout(timer);
     }, [flashMessage]);
 
     return (
@@ -33,7 +36,7 @@ export default function Index() {
             <Head title="Products" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
-                {showAlert && flashMessage && (
+                {showAlert && flashMessage &&  flash &&(
                     <Alert
                         variant={'default'}
                         className={`${flash?.success ? 'bg-green-800' : flash?.error ? 'bg-red-800' : ''} ml-auto max-w-md text-white`}
