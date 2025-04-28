@@ -7,14 +7,12 @@ use App\Interfaces\ProductInterface;
 class ProductService
 {
 
-    public $productInterface;
     /**
      * Create a new class instance.
      */
-    public function __construct(ProductInterface $productInterface)
-    {
-        $this->productInterface = $productInterface;
-    }
+    public function __construct(
+        private ProductInterface $productInterface
+    ) {}
 
     public function createProduct(array $data)
     {

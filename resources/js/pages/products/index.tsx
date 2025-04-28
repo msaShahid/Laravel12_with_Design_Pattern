@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { CirclePlusIcon, X } from 'lucide-react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { CirclePlusIcon, Eye, Pencil, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import {FlashMessage} from '@/types/flash-message';
 
@@ -15,8 +15,23 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index() {
+interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    featured_image: string;
+    featured_image_name: string;
+    created_at: string;
+}
 
+interface IndexProps {
+    product_list: Product[];
+}
+
+export default function Index({product_list}:IndexProps ) {
+
+    //console.log(product_list);
     //console.log(usePage()); 
     const { flash } = usePage<FlashMessage>().props;
     const flashMessage = flash?.success ?? flash?.error;
@@ -85,16 +100,54 @@ export default function Index() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className="border px-4 py-2 text-center" >1</td>
-                                <td className="border px-4 py-2 text-center" >Mobile</td>
-                                <td className="border px-4 py-2 text-center" >PhoneX</td>
-                                <td className="border px-4 py-2 text-center" >$500</td>
-                                <td className="border px-4 py-2 text-center" ></td>
-                                <td className="border px-4 py-2 text-center" ></td>
-                                <td className="border px-4 py-2 text-center" ></td>
-                            </tr>
+                            {
+                                product_list.map((product, index) => (
+                                    <tr key={index}>
+                                        <td className="border px-4 py-2 text-center">{index + 1}</td>
+                                        <td className="border px-4 py-2 text-center">{product.name} </td>
+                                        <td className="border px-4 py-2 text-center">{product.description} </td>
+                                        <td className="border px-4 py-2 text-center">{product.price} </td>
+                                        <td className="flex justify-center border px-4 py-2 text-center">
+                                            {product.featured_image && (
+                                                <img 
+                                                src={`/storage/${product.featured_image}`} 
+                                                alt={product.name} 
+                                                className="h-16 w-20 rounded-lg object-cover" />
+                                            )}
+                                        </td>
+                                        <td className="border px-4 py-2 text-center">{product.created_at}</td>
+                                        <td className="w-40 border px-4 py-2 text-center">
+                                            <Link
+                                                as="button"
+                                                className="cursor-pointer rounded-lg bg-sky-600 p-2 text-white hover:opacity-90"
+                                                href={route('products.show', product.id)}
+                                            >
+                                                <Eye size={18} />{' '}
+                                            </Link>
 
+                                            <Link
+                                                as="button"
+                                                className="ms-2 cursor-pointer rounded-lg bg-blue-600 p-2 text-white hover:opacity-90"
+                                                href={route('products.edit', product.id)}
+                                            >
+                                                <Pencil size={18} />{' '}
+                                            </Link>
+
+                                            <Button
+                                                className="ms-2 cursor-pointer rounded-lg bg-red-600 p-2 text-white hover:opacity-90"
+                                                onClick={() => {
+                                                    if (confirm('Are you sure you want to delete this product?')) {
+                                                        router.delete(route('products.destroy', product.id), {
+                                                            preserveScroll: true,
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                <Trash2 size={18} />{' '}
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

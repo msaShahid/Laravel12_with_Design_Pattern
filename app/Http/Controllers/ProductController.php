@@ -13,19 +13,20 @@ use App\Http\Requests\ProductFormRequest;
 class ProductController extends Controller
 {
 
-    public $productService;
-
-    public function __construct(ProductService $productService)
-    {
-        $this->productService = $productService;
-    }
+    public function __construct(
+        private ProductService $productService
+    ){}
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       return Inertia::render('products/index');
+        $product_list = $this->productService->getAllProducts();
+        //dd($product_list->toArray());
+        return Inertia::render('products/index',[
+            'product_list' => $product_list,
+        ]);
     }
 
     /**

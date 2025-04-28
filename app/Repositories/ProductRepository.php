@@ -17,7 +17,7 @@ class ProductRepository implements ProductInterface
 
     public function all()
     {
-        return Product::all();
+        return Product::latest()->get();
     }
 
     public function find($id)
