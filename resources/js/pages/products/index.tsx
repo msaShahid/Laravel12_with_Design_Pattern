@@ -7,6 +7,7 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CirclePlusIcon, Eye, Pencil, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import {FlashMessage} from '@/types/flash-message';
+import moment from 'moment';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -95,7 +96,7 @@ export default function Index({product_list}:IndexProps ) {
                                 <th className='p-2 border' >Description</th>
                                 <th className='p-2 border' >Price</th>
                                 <th className='p-2 border' >Featured Image</th>
-                                <th className='p-2 border' >Featured Name</th>
+                                <th className='p-2 border' >Create At</th>
                                 <th className='p-2 border' >Actions</th>
                             </tr>
                         </thead>
@@ -115,7 +116,9 @@ export default function Index({product_list}:IndexProps ) {
                                                 className="h-16 w-20 rounded-lg object-cover" />
                                             )}
                                         </td>
-                                        <td className="border px-4 py-2 text-center">{product.created_at}</td>
+                                        <td className="border px-4 py-2 text-center">
+                                            { moment(product.created_at).format('YYYY-MM-DD')}
+                                        </td>
                                         <td className="w-40 border px-4 py-2 text-center">
                                             <Link
                                                 as="button"
