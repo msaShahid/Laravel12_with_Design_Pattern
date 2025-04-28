@@ -25,8 +25,6 @@ export default function ProductForm() {
         featured_image: null as File | null,
     });
 
-    
-    
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

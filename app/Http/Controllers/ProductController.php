@@ -48,6 +48,8 @@ class ProductController extends Controller
 
             if ($product_save) {
                 return redirect()->route('products.index')->with('success', 'Product created successfully.');
+            }else{
+                return redirect()->route('products.index')->with('error', 'Unable to create product. Please try again');
             }
 
         } catch (Exception $e) {

@@ -54,7 +54,7 @@ class ProductService
             'name' => $request['name'],
             'description' => $request['description'],
             'price' => $request['price'],
-            'featured_image' => $request['featured_image'],
+            'featured_image' => $request['featured_image'] ?? null,
             'featured_image_name' => isset($request['featured_image']) 
                 ? $request['featured_image']->getClientOriginalName() 
                 : null,
