@@ -28,17 +28,23 @@ export default function ProductForm({...props}) {
         description: product?.description || '',
         price: product?.price || '',
         featured_image: null as File | null,
+        _method: isEdit ? 'PUT' : 'POST',
     });
 
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        post(route('products.store'), {
-            onSuccess: () => {
-                console.log('save is done');
-            }
-        })
+        if (isEdit) {
+            post(route('products.update', product.id), {
+                forceFormData: true,
+                onSuccess: () => reset(),
+            });
+        } else {
+            post(route('products.store'), {
+                onSuccess: () => reset(),
+            });
+        }
        // console.log('data :', data);
     }
 

@@ -28,7 +28,9 @@ class ProductService
 
     public function updateProduct($id, array $data)
     {
-        return $this->productInterface->update($id, $data);
+        $updateProduct = $this->mapProductFormData($data); 
+        $productData = $this->handleImageUpload($updateProduct);
+        return $this->productInterface->update($id, $productData);
     }
 
     public function getAllProducts()
@@ -57,6 +59,16 @@ class ProductService
                 ? $request['featured_image']->getClientOriginalName() 
                 : null,
         ];
+    }
+
+    private function handleImageUpload(array $data): array
+    {
+        if (isset($data['featured_image']) && $data['featured_image']->isValid()) {
+            $path = $data['featured_image']->store('products', 'public');
+            $data['featured_image'] = $path;
+        }
+
+        return $data;
     }
 
 }

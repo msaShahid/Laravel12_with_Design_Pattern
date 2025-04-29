@@ -53,7 +53,7 @@ class ProductController extends Controller
                 return redirect()->route('products.index')->with('error', 'Unable to create product. Please try again');
             }
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             Log::error('Product creation failed', [
                 'error' => $e->getMessage(),
                 'request' => $request->all(),
@@ -79,15 +79,38 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return Inertia::render('products/product-form',[
+            'product' => $product,
+            'isEdit' => true,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductFormRequest $request, Product $product)
     {
-        //
+        //dd($request->all(), $product);
+        
+        try {
+            
+            $product_update = $this->productService->updateProduct($product->id, $request->validated());
+
+            if ($product_update) {
+                return redirect()->route('products.index')->with('success', 'Product Update successfully.');
+            }else{
+                return redirect()->route('products.index')->with('error', 'Unable to update product. Please try again');
+            }
+
+        } catch (\Throwable $e) {
+            Log::error('Product update failed', [
+                'error' => $e->getMessage(),
+                'product_id' => $product->id,
+                'request' => $request->all(),
+            ]);
+
+            return redirect()->back()->withInput()->with('error', 'Failed to update product. Please try again.');
+        }
     }
 
     /**
