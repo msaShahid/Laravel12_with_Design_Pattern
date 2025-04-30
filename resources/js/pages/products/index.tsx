@@ -8,6 +8,7 @@ import { CirclePlusIcon, Eye, Pencil, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import {FlashMessage} from '@/types/flash-message';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,24 +36,39 @@ export default function Index({product_list}:IndexProps ) {
     //console.log(product_list);
     //console.log(usePage()); 
     const { flash } = usePage<FlashMessage>().props;
-    const flashMessage = flash?.success ?? flash?.error;
-    const [showAlert, setShowAlert] = useState(!!flashMessage);
+    //const flashMessage = flash?.success ?? flash?.error;
+    //const [showAlert, setShowAlert] = useState(!!flashMessage);
+
+    // useEffect(() => {
+    //     if (!flashMessage) return;
+
+    //     setShowAlert(true); 
+    //     const timer = setTimeout(() => setShowAlert(false), 3000);
+
+    //     return () => clearTimeout(timer);
+    // }, [flashMessage]);
 
     useEffect(() => {
-        if (!flashMessage) return;
-
-        setShowAlert(true); 
-        const timer = setTimeout(() => setShowAlert(false), 3000);
-
-        return () => clearTimeout(timer);
-    }, [flashMessage]);
+        const message = flash.success || flash.error;
+        const type = flash.success ? 'success' : flash.error ? 'error' : null;
+    
+        if (type && message) {
+            Swal.fire({
+                icon: type,
+                title: type === 'success' ? 'Success' : 'Error',
+                text: message,
+                timer: 3000,
+                showConfirmButton: false,
+            });
+        }
+    }, [flash]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Products" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
-                {showAlert && flashMessage &&  flash &&(
+                {/* {showAlert && flashMessage &&  flash &&(
                     <Alert
                         variant={'default'}
                         className={`${flash?.success ? 'bg-green-800' : flash?.error ? 'bg-red-800' : ''} ml-auto max-w-md text-white`}
@@ -62,7 +78,7 @@ export default function Index({product_list}:IndexProps ) {
                             {flashMessage}
                         </AlertDescription>
                     </Alert>
-                )}
+                )} */}
 
                 <div className="mb-4 flex w-full items-center justify-between gap-4">
                     <Input
@@ -137,13 +153,23 @@ export default function Index({product_list}:IndexProps ) {
                                             </Link>
 
                                             <Button
-                                                className="ms-2 cursor-pointer rounded-lg bg-red-600 p-2 text-white hover:opacity-90"
+                                                className="ms-2 cursor-pointer rounded-lg bg-red-600 p-2 text-white"
                                                 onClick={() => {
-                                                    if (confirm('Are you sure you want to delete this product?')) {
-                                                        router.delete(route('products.destroy', product.id), {
-                                                            preserveScroll: true,
-                                                        });
-                                                    }
+                                                    Swal.fire({
+                                                        title: 'Are you sure?',
+                                                        text: "You won't be able to revert this!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#d33',
+                                                        cancelButtonColor: '#3085d6',
+                                                        confirmButtonText: 'Yes, delete it!',
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            router.delete(route('products.destroy', product.id), {
+                                                                preserveScroll: true,
+                                                            });
+                                                        }
+                                                    });
                                                 }}
                                             >
                                                 <Trash2 size={18} />{' '}
