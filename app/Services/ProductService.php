@@ -17,13 +17,8 @@ class ProductService
     public function createProduct(array $data)
     {
         $product = $this->mapProductFormData($data); 
-    
-        if (isset($product['featured_image'])) {
-            $path = $product['featured_image']->store('products', 'public');
-            $product['featured_image'] = $path;
-        }
-    
-        return $this->productInterface->create($product); 
+        $saveProduct = $this->handleImageUpload($product);
+        return $this->productInterface->create($saveProduct); 
     }
 
     public function updateProduct($id, array $data)
