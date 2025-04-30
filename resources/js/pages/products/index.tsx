@@ -172,7 +172,7 @@ export default function Index({product_list}:IndexProps ) {
                                                     });
                                                 }}
                                             >
-                                                <Trash2 size={18} />{' '}
+                                                <Trash2 size={18} />
                                             </Button>
                                         </td>
                                     </tr>
