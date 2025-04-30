@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import {FlashMessage} from '@/types/flash-message';
 import moment from 'moment';
 import Swal from 'sweetalert2';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -48,18 +49,27 @@ export default function Index({product_list}:IndexProps ) {
     //     return () => clearTimeout(timer);
     // }, [flashMessage]);
 
-    useEffect(() => {
-        const message = flash.success || flash.error;
-        const type = flash.success ? 'success' : flash.error ? 'error' : null;
+    // useEffect(() => {
+    //     const message = flash.success || flash.error;
+    //     const type = flash.success ? 'success' : flash.error ? 'error' : null;
     
-        if (type && message) {
-            Swal.fire({
-                icon: type,
-                title: type === 'success' ? 'Success' : 'Error',
-                text: message,
-                timer: 3000,
-                showConfirmButton: false,
-            });
+    //     if (type && message) {
+    //         Swal.fire({
+    //             icon: type,
+    //             title: type === 'success' ? 'Success' : 'Error',
+    //             text: message,
+    //             timer: 3000,
+    //             showConfirmButton: false,
+    //         });
+    //     }
+    // }, [flash]);
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success);
+        }
+        if (flash.error) {
+            toast.error(flash.error);
         }
     }, [flash]);
 
