@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\GreetingController;
 use App\Http\Controllers\SingletonController;
+use App\Http\Controllers\Superadmin\SettingsController;
+use App\Http\Controllers\Admin\UserManagementController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -21,6 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
+Route::get('admin/users', [UserManagementController::class, 'index'])->name('admin');
+Route::get('superadmin/settings', [SettingsController::class, 'index'])->name('superadmin');
 
 Route::resource('todos',TodoController::class);
 Route::resource('users', UserController::class);
