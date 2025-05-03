@@ -1,11 +1,10 @@
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CirclePlusIcon, Eye, Pencil, Trash2, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {FlashMessage} from '@/types/flash-message';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -37,32 +36,6 @@ export default function Index({product_list}:IndexProps ) {
     //console.log(product_list);
     //console.log(usePage()); 
     const { flash } = usePage<FlashMessage>().props;
-    //const flashMessage = flash?.success ?? flash?.error;
-    //const [showAlert, setShowAlert] = useState(!!flashMessage);
-
-    // useEffect(() => {
-    //     if (!flashMessage) return;
-
-    //     setShowAlert(true); 
-    //     const timer = setTimeout(() => setShowAlert(false), 3000);
-
-    //     return () => clearTimeout(timer);
-    // }, [flashMessage]);
-
-    // useEffect(() => {
-    //     const message = flash.success || flash.error;
-    //     const type = flash.success ? 'success' : flash.error ? 'error' : null;
-    
-    //     if (type && message) {
-    //         Swal.fire({
-    //             icon: type,
-    //             title: type === 'success' ? 'Success' : 'Error',
-    //             text: message,
-    //             timer: 3000,
-    //             showConfirmButton: false,
-    //         });
-    //     }
-    // }, [flash]);
 
     useEffect(() => {
         if (flash.success) {
@@ -77,19 +50,6 @@ export default function Index({product_list}:IndexProps ) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Products" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-
-                {/* {showAlert && flashMessage &&  flash &&(
-                    <Alert
-                        variant={'default'}
-                        className={`${flash?.success ? 'bg-green-800' : flash?.error ? 'bg-red-800' : ''} ml-auto max-w-md text-white`}
-                    >
-                        <AlertDescription className="text-white">
-                            {flash.success ? 'Success!' : 'Error!'} {''}
-                            {flashMessage}
-                        </AlertDescription>
-                    </Alert>
-                )} */}
-
                 <div className="mb-4 flex w-full items-center justify-between gap-4">
                     <Input
                         type="text"
