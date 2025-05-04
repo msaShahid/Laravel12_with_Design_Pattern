@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserManagementController extends Controller
 {
@@ -12,7 +13,7 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        return Inertia::render('admin/User');
+        return Inertia::render('admin/user');
     }
 
     /**

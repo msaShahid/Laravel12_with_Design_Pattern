@@ -26,7 +26,7 @@ export function AppSidebar() {
     ];
 
     const adminNavItems: NavItem[] = [
-        { title: 'Manage User', href: '/admin/users', icon: Shield },
+        { title: 'Manage User', href: '/admin/user', icon: Shield },
     ];
 
     const superadminNavItems: NavItem[] = [

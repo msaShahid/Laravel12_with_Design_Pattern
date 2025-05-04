@@ -23,8 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-Route::get('admin/users', [UserManagementController::class, 'index'])->name('admin');
-Route::get('superadmin/settings', [SettingsController::class, 'index'])->name('superadmin');
+Route::get('admin/user', [UserManagementController::class, 'index']);
+Route::get('superadmin/settings', [SettingsController::class, 'index']);
 
 Route::resource('todos',TodoController::class);
 Route::resource('users', UserController::class);
