@@ -23,8 +23,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-Route::get('admin/user', [UserManagementController::class, 'index']);
-Route::get('superadmin/settings', [SettingsController::class, 'index']);
+// Admin-only
+Route::middleware(['auth', 'verified', 'role:admin,superadmin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/user', [UserManagementController::class, 'index']);
+});
+
+// SuperAdmin-only
+Route::middleware(['auth', 'verified', 'role:superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
+    Route::get('/settings', [SettingsController::class, 'index']);
+});
+
+
 
 Route::resource('todos',TodoController::class);
 Route::resource('users', UserController::class);
