@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Product;
 use App\Interfaces\ProductInterface;
 
 class ProductService
@@ -32,6 +33,22 @@ class ProductService
     {
         return $this->productInterface->all();
     }
+
+    public function getFilteredProducts(?string $search = null)
+    {
+        $query = $this->getAllProducts();
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")
+                ->orWhere('price', 'like', "%{$search}%");
+            });
+        }
+
+        return $query;
+    }
+
 
     public function getProductById($id)
     {

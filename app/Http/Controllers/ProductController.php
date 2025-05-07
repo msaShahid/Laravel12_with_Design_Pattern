@@ -20,10 +20,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $product_list = $this->productService->getAllProducts()->paginate(10);
+        // dump($request->all());
         //dd($product_list);
+
+        $product_list = $this->productService->getFilteredProducts($request->input('search'))
+        ->paginate(10)
+        ->withQueryString(); 
 
         return Inertia::render('products/index',[
             'product_list' => $product_list,

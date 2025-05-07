@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { CirclePlusIcon, Eye, Pencil, Trash2, X } from 'lucide-react';
 import { useEffect } from 'react';
 import {FlashMessage} from '@/types/flash-message';
@@ -59,6 +59,24 @@ export default function Index({product_list}:IndexProps ) {
         }
     }, [flash]);
 
+    const {data, setData} = useForm({
+        search: '',
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setData('search', value);
+
+        const queryString = {
+            ...(value && { search: value }),
+        };
+
+        router.get(route('products.index'), queryString, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Products" />
@@ -66,9 +84,11 @@ export default function Index({product_list}:IndexProps ) {
                 <div className="mb-4 flex w-full items-center justify-between gap-4">
                     <Input
                         type="text"
+                        onChange={handleChange}
+                        value={data.search}
+                        name="search"
                         className="h-10 w-1/2"
                         placeholder="Search Product..."
-                        name="search"
                     />
 
                     <Button className="h-10 cursor-pointer bg-red-600 hover:bg-red-500">
