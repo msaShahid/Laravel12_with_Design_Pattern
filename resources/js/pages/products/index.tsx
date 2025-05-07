@@ -46,7 +46,7 @@ interface IndexProps {
 
 export default function Index({product_list}:IndexProps ) {
 
-    console.log(product_list);
+    //console.log(product_list);
     //console.log(usePage()); 
     const { flash } = usePage<FlashMessage>().props;
 

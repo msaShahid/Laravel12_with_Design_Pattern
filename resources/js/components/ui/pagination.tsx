@@ -22,6 +22,8 @@ export const Pagination = ({ products } : PaginationProps) => {
     return (
         <div className="flex items-center justify-between mt-4">
 
+            <p>Showing <strong>{products.from}</strong> to <strong>{products.to}</strong> out of <strong>{products.total}</strong></p>
+
             {/* Pagination Link */}
             <div className="flex gap-2">
                 {products.links.map((link, index) => (
