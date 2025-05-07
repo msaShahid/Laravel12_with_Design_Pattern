@@ -4,12 +4,14 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { CirclePlusIcon, Eye, Pencil, Trash2, X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import {FlashMessage} from '@/types/flash-message';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { toast } from 'sonner';
 import { Pagination } from '@/components/ui/pagination';
+import debounce from 'lodash/debounce';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -63,19 +65,21 @@ export default function Index({product_list}:IndexProps ) {
         search: '',
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setData('search', value);
-
-        const queryString = {
-            ...(value && { search: value }),
-        };
-
-        router.get(route('products.index'), queryString, {
+    const debouncedSearch = useMemo(() => 
+        debounce((value: string) => {
+          router.get(route('products.index'), value ? { search: value } : {}, {
             preserveState: true,
             preserveScroll: true,
-        });
-    }
+          });
+        }, 300),
+      [], []);
+      
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setData({ search: value });
+        debouncedSearch(value);
+      };
+    
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
