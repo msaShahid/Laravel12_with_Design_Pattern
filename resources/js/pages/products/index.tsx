@@ -9,6 +9,7 @@ import {FlashMessage} from '@/types/flash-message';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { toast } from 'sonner';
+import { Pagination } from '@/components/ui/pagination';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -29,12 +30,12 @@ interface Product {
 interface LinkProps {
     active: boolean;
     label: string;
-    url: string;
+    url: string | null;
 }
 
 interface ProductPaginatation {
     data : Product[];
-    link: LinkProps[];
+    links: LinkProps[];
     from: number;
     to: number;
     total: number;
@@ -102,7 +103,7 @@ export default function Index({product_list}:IndexProps ) {
                             {
                                 product_list.data.map((product, index) => (
                                     <tr key={index}>
-                                        <td className="border px-4 py-2 text-center">{index + 1}</td>
+                                        <td className="border px-4 py-2 text-center">{product.id}</td>
                                         <td className="border px-4 py-2 text-center">{product.name} </td>
                                         <td className="border px-4 py-2 text-center">{product.description} </td>
                                         <td className="border px-4 py-2 text-center">{product.price} </td>
@@ -162,6 +163,7 @@ export default function Index({product_list}:IndexProps ) {
                         </tbody>
                     </table>
                 </div>
+                <Pagination products={product_list}/>
             </div>
         </AppLayout>
     );
