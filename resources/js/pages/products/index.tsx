@@ -26,14 +26,26 @@ interface Product {
     featured_image_name: string;
     created_at: string;
 }
+interface LinkProps {
+    active: boolean;
+    label: string;
+    url: string;
+}
 
+interface ProductPaginatation {
+    data : Product[];
+    link: LinkProps[];
+    from: number;
+    to: number;
+    total: number;
+}
 interface IndexProps {
-    product_list: Product[];
+    product_list: ProductPaginatation
 }
 
 export default function Index({product_list}:IndexProps ) {
 
-    //console.log(product_list);
+    console.log(product_list);
     //console.log(usePage()); 
     const { flash } = usePage<FlashMessage>().props;
 
@@ -88,7 +100,7 @@ export default function Index({product_list}:IndexProps ) {
                         </thead>
                         <tbody>
                             {
-                                product_list.map((product, index) => (
+                                product_list.data.map((product, index) => (
                                     <tr key={index}>
                                         <td className="border px-4 py-2 text-center">{index + 1}</td>
                                         <td className="border px-4 py-2 text-center">{product.name} </td>

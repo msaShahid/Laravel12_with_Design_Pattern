@@ -22,8 +22,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product_list = $this->productService->getAllProducts();
-        dd($product_list->paginate(10));
+        $product_list = $this->productService->getAllProducts()->paginate(10);
+        //dd($product_list);
 
         return Inertia::render('products/index',[
             'product_list' => $product_list,
