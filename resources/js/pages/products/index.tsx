@@ -94,7 +94,7 @@ export default function Index({product_list}:IndexProps ) {
                                 <th className='p-2 border' >Name</th>
                                 <th className='p-2 border' >Description</th>
                                 <th className='p-2 border' >Price</th>
-                                <th className='p-2 border' >Featured Image</th>
+                                {/* <th className='p-2 border' >Featured Image</th> */}
                                 <th className='p-2 border' >Create At</th>
                                 <th className='p-2 border' >Actions</th>
                             </tr>
@@ -107,14 +107,14 @@ export default function Index({product_list}:IndexProps ) {
                                         <td className="border px-4 py-2 text-center">{product.name} </td>
                                         <td className="border px-4 py-2 text-center">{product.description} </td>
                                         <td className="border px-4 py-2 text-center">{product.price} </td>
-                                        <td className="flex justify-center border px-4 py-2 text-center">
+                                        {/* <td className="flex justify-center border px-4 py-2 text-center">
                                             {product.featured_image && (
                                                 <img 
                                                 src={`/storage/${product.featured_image}`} 
                                                 alt={product.name} 
                                                 className="h-16 w-20 rounded-lg object-cover" />
                                             )}
-                                        </td>
+                                        </td> */}
                                         <td className="border px-4 py-2 text-center">
                                             { moment(product.created_at).format('YYYY-MM-DD')}
                                         </td>
