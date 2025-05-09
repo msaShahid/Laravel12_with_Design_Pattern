@@ -1,3 +1,4 @@
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Link } from "@inertiajs/react"
 
 interface LinkProps {
@@ -23,6 +24,23 @@ export const Pagination = ({ products } : PaginationProps) => {
         <div className="flex items-center justify-between mt-4">
 
             <p>Showing <strong>{products.from}</strong> to <strong>{products.to}</strong> out of <strong>{products.total}</strong></p>
+
+            <div className="flex items-center gap-2">
+                <span className="text-sm"> Row per page:</span>
+                <Select>
+                    <SelectTrigger className="w-[90px]">
+                        {/* <SelectValue placeholder="Row" /> */}
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="5">5</SelectItem>
+                        <SelectItem value="10">10</SelectItem>
+                        <SelectItem value="25">25</SelectItem>
+                        <SelectItem value="50">50</SelectItem>
+                        <SelectItem value="100">100</SelectItem>
+                        <SelectItem value="-1">All</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
 
             {/* Pagination Link */}
             <div className="flex gap-2">
