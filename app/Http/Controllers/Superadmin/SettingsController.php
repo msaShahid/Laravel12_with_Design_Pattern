@@ -16,6 +16,11 @@ class SettingsController extends Controller
         return Inertia::render('superadmin/system');
     }
 
+    public function viewLog()
+    {
+        return Inertia::render('superadmin/activityLog');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

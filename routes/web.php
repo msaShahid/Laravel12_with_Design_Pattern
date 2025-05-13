@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified', 'role:admin,superadmin'])->prefix('admin'
 // SuperAdmin-only
 Route::middleware(['auth', 'verified', 'role:superadmin'])->prefix('superadmin')->name('superadmin.')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index']);
+    Route::get('/log-view', [SettingsController::class, 'viewLog']);
 });
 
 
