@@ -21,7 +21,7 @@ export default function ActivityLog() {
                     <div className="grid grid-cols-1 gap-3 bg-white shadow-lg 2xs:rounded-lg p-2">
                          <iframe
                             className='w-full h-[650px] border-none'
-                            src='/admin/activity-log'
+                            src='/superadmin/activity-log'
                             title='Log Viewer'></iframe>
                     </div>
                 </div>
